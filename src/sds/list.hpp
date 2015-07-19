@@ -1,10 +1,10 @@
 #ifndef LODUR_CONTAINER_LIST_HPP
 #define LODUR_CONTAINER_LIST_HPP
 
-// this is an im implementation of a double-linked list with little access 
-// optimization the search complexity for given position is worst case O(n/2) 
-// and best case O(1). THis list save the last searched position and search 
-// backwards if the postion is near to to the last element  
+// this is an implementation of a double-linked list with little access 
+// optimization. The search complexity for given position is worst case O(n/2) 
+// and best case O(1). This list save the last searched position and search 
+// backwards if the postion is near to to the last element.
 
 
 #include <stdexcept>
