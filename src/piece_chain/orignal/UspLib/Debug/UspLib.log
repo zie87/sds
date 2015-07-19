@@ -1,0 +1,20 @@
+﻿Build started 16.07.2015 20:43:08.
+Project "C:\Users\tobia\Downloads\piecechain\UspLib\UspLib.vcxproj" on node 2 (Build target(s)).
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc110.pdb" /Gd /TC /analyze- /errorReport:prompt UspCtrl.c UspLib.c UspMouse.c UspPaint.c
+  UspPaint.c
+  UspMouse.c
+  UspLib.c
+  UspCtrl.c
+  Generating Code...
+Lib:
+  C:\Program Files\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:".\Debug\UspLib.lib" /NOLOGO .\Debug\UspCtrl.obj
+  .\Debug\UspLib.obj
+  .\Debug\UspMouse.obj
+  .\Debug\UspPaint.obj
+  UspLib.vcxproj -> C:\Users\tobia\Downloads\piecechain\UspLib\.\Debug\UspLib.lib
+Done Building Project "C:\Users\tobia\Downloads\piecechain\UspLib\UspLib.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.89

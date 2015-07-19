@@ -1,0 +1,18 @@
+﻿Build started 16.07.2015 20:49:11.
+Project "C:\Users\tobia\Downloads\piecechain\PieceChain.vcxproj" on node 2 (Build target(s)).
+Link:
+  C:\Program Files\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\PieceChain.exe" /INCREMENTAL /NOLOGO odbc32.lib odbccp32.lib .\UspLib\Debug\UspLib.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:".\Debug\PieceChain.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\PieceChain.lib" /MACHINE:X86 /SAFESEH .\Debug\resource.res
+  .\Debug\main.obj
+  .\Debug\sequence.obj
+  .\Debug\SpanView.obj
+  .\Debug\uniview.obj
+main.obj : warning LNK4229: invalid directive '/opt:nowin98' encountered; ignored
+main.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+  PieceChain.vcxproj -> C:\Users\tobia\Downloads\piecechain\.\Debug\PieceChain.exe
+BscMake:
+  C:\Program Files\Microsoft Visual Studio 11.0\VC\bin\bscmake.exe /nologo /o".\Debug\PieceChain.bsc" .\Debug\main.sbr .\Debug\sequence.sbr .\Debug\SpanView.sbr .\Debug\uniview.sbr
+Done Building Project "C:\Users\tobia\Downloads\piecechain\PieceChain.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.54
