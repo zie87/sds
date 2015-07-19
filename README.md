@@ -1,18 +1,12 @@
-# scriba
+# SDS
 
-## links
-[Piece Chains](http://www.catch22.net/tuts/piece-chains)
+This project contains example implementations of data structurs for text 
+sequences. This structurs are manly based on the structur description of the 
+paper [Data Structures for Text Sequences](https://www.cs.unm.edu/~crowley/papers/sds.pdf).
+You can find a copy of the document in the 'doc'-directory.
 
-[Design & Implementation of a Win32 TextEditor](http://www.catch22.net/tuts/neatpad)
-
-[Design and Implementation of an Advanced TextEditor](http://mclauchlan.site.net.au/scott/C=Hacking/C-Hacking11/zedace.html)
-
-[ned - Text Editor of the Future](http://ned.rubyforge.org/)
-
-[Abiword piece table](http://www.abisource.com/doxygen/ptbl_overview.html)
-
-[Improving the AbiWord's PieceTable](http://e98cuenc.free.fr/wordprocessor/piecetable.html)
-
-[What's been wrought using the Piece Table?](http://archive.is/qc35N#)
-
-[There is A Perfect Editor](http://www.stratigery.com/perfect.editor.html)
+The folder 'piece_chain' contains the piece-chain implementation from [Neatpad](http://www.catch22.net/tuts/neatpad). 
+You can find a description of the implementation [here](http://www.catch22.net/tuts/piece-chains). 
+This directory contains a subfolder with the name 'linux_port'. The code in 
+this folders is nearly the same like the original one. Only the Windows spezific 
+parts are removed and the source is split in to multiple modules.
