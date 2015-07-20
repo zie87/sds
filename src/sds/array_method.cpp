@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <algorithm>
 
-#include "array_method.hpp"
+#include <sds/array_method.hpp>
 
 namespace sequences
 {

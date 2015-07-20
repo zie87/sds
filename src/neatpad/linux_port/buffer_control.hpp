@@ -1,7 +1,7 @@
-#ifndef SEQUENCES_BUFFER_CONTROL_HPP
-#define SEQUENCES_BUFFER_CONTROL_HPP
+#ifndef NEATPAD_BUFFER_CONTROL_HPP
+#define NEATPAD_BUFFER_CONTROL_HPP
 
-namespace sequences
+namespace neatpad
 {
 
   struct buffer_control
@@ -23,6 +23,6 @@ namespace sequences
   };
 
 
-} // sequences
+} // neatpad
 
-#endif // SEQUENCES_BUFFER_CONTROL_HPP
+#endif // NEATPAD_BUFFER_CONTROL_HPP

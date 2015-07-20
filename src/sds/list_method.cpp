@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <algorithm>
 
-#include "list_method.hpp"
+#include <sds/list_method.hpp>
 
 namespace sequences
 {

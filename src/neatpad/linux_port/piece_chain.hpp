@@ -1,5 +1,5 @@
-#ifndef SEQUENCES_PIECE_CHAIN_HPP
-#define SEQUENCES_PIECE_CHAIN_HPP
+#ifndef NEATPAD_PIECE_CHAIN_HPP
+#define NEATPAD_PIECE_CHAIN_HPP
 
 #include <vector>
 #include <string>
@@ -7,7 +7,7 @@
 #include "piece.hpp"
 #include "buffer_control.hpp"
 
-namespace sequences
+namespace neatpad
 {
 
 //  piece_chain class!
@@ -156,6 +156,6 @@ class piece_chain
     action        lastaction       = action::invalid;
 };
 
-} // sequences
+} // neatpad
 
-#endif // SEQUENCES_PIECE_CHAIN_HPP
+#endif // NEATPAD_PIECE_CHAIN_HPP

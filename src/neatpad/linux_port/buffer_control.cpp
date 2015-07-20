@@ -1,6 +1,6 @@
 #include "buffer_control.hpp"
 
-namespace sequences
+namespace neatpad
 {
 
   buffer_control* buffer_control::alloc_buffer(size_type capacity)
@@ -13,4 +13,4 @@ namespace sequences
     return bc;
   }
 
-} // sequences
+} // neatpad

@@ -1,5 +1,5 @@
 PROJECT(sds)
 
 ADD_SUBDIRECTORY (sds)
-ADD_SUBDIRECTORY (piece_chain)
+ADD_SUBDIRECTORY (neatpad)
 

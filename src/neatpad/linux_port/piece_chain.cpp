@@ -7,7 +7,7 @@
 
 #include "piece_chain.hpp"
 
-namespace sequences
+namespace neatpad
 {
 
 const piece_chain::size_type piece_chain::MAX_SEQUENCE_LENGTH = ((piece_chain::size_type)(-1) / sizeof(piece_chain::value_type));
@@ -956,4 +956,4 @@ void piece_chain::ungroup()
     group_refcount--;
 }
 
-} // sequences
+} // neatpad

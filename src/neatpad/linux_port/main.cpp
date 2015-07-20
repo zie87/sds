@@ -2,7 +2,7 @@
 
 int main()
 {
-  sequences::piece_chain seq;
+  neatpad::piece_chain seq;
   seq.init();
   seq.append( "A large span of text", 20 );
   seq.erase(2, 6);

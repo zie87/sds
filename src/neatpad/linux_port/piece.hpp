@@ -1,7 +1,7 @@
-#ifndef SEQUENCES_PIECE_HPP
-#define SEQUENCES_PIECE_HPP
+#ifndef NEATPAD_PIECE_HPP
+#define NEATPAD_PIECE_HPP
 
-namespace sequences
+namespace neatpad
 {
 
     //  piece_chain::action
@@ -176,6 +176,6 @@ namespace sequences
   };
 
 
-} // sequences
+} // neatpad
 
-#endif // SEQUENCES_PIECE_HPP
+#endif // NEATPAD_PIECE_HPP

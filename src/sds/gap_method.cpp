@@ -1,4 +1,4 @@
-#include "gap_method.hpp"
+#include <sds/gap_method.hpp>
 
 #include <stdexcept>
 #include <algorithm>

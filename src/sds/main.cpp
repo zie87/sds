@@ -13,55 +13,10 @@
 
 */
 
-
-
-// #include <iostream>
-// #include <iomanip>
-// #include <string>
-// #include <map>
-// #include <random>
-// #include <cmath>
-
-
-
-// std::vector<unsigned int> create_distribution_vector( unsigned int number_of_edits, unsigned int size, float uniformly_factor = 0.2, unsigned int increase = 1)
-// { 
-//   std::cout << __FUNCTION__ << std::endl;
-//   std::vector<unsigned int> distribution_vec;
-
-//   unsigned int uniformly_counter = number_of_edits*uniformly_factor;
-//   unsigned int normally_counter  = number_of_edits - uniformly_counter;
-
-//   unsigned int last_pos = 0;
-
-//   for(unsigned int i = 0; i < uniformly_counter; ++i )
-//   {
-//     std::uniform_int_distribution<> udis(0, ( size + ( increase*i ) ));
-//     last_pos = udis(rdn_generator);
-//     distribution_vec.push_back(last_pos);
-//   }
-
-//   for(unsigned int i = 0; i < normally_counter; ++i)
-//   {
-//     last_pos = filtered_normally_distributed( last_pos, 25, 0, ( size + ( increase*i ) ) );
-//     distribution_vec.push_back(last_pos);
-//   } 
-
-
-//   return distribution_vec;
-// }
-
-
-
-
-// std::intmax_t border_near_access(sequenz_interface* seq; unsigned int wide = 25)
-// {
-
-// }
-
-#include "array_method.hpp"
-#include "gap_method.hpp"
-#include "list_method.hpp"
+#include <sds/array_method.hpp>
+#include <sds/gap_method.hpp>
+#include <sds/list_method.hpp>
+#include <sds/piece_chain_method.hpp>
 // #include "line_span_method.hpp"
 
 #include <algorithm>
@@ -100,7 +55,7 @@ struct configuration
 {
   using size_type = std::size_t;
 
-  size_type number_of_edits      = 60000; 
+  size_type number_of_edits      = 6000;//60000; 
 
   size_type sequenz_size         = 8000;
   size_type block_size           = 1024;
@@ -245,10 +200,10 @@ int main(int argc, char* argv[])
     desc.add_options()
       ("help,h", "produce help message")
       ("file,f", bo_opts::value<std::string>(), "load distribution data")
-      ("skip-array"      , "skip tests for array_sequence")
-      ("skip-list"       , "skip tests for list_sequence")
-      ("skip-gap"        , "skip tests for gap_sequence")
-      ("skip-line-span"  , "skip tests for line_span_sequence")
+      ("skip-array"        , "skip tests for array_sequence")
+      ("skip-list"         , "skip tests for list_sequence")
+      ("skip-gap"          , "skip tests for gap_sequence")
+      ("skip-piece-chain"  , "skip tests for piece_chain_sequence")
     ;
 
     bo_opts::variables_map vm;        
@@ -280,7 +235,7 @@ int main(int argc, char* argv[])
     bool skip_array       = false; if(vm.count("skip-array"))       skip_array = true;
     bool skip_list        = false; if(vm.count("skip-list"))        skip_list = true;
     bool skip_gap         = false; if(vm.count("skip-gap"))         skip_gap = true;
-    bool skip_line_span   = false; if(vm.count("skip-line-span"))   skip_line_span = true;
+    bool skip_piece_chain = false; if(vm.count("skip-piece-chain"))   skip_piece_chain = true;
 
     configuration configs;
     std::vector<std::size_t> distribution_vec;
@@ -339,14 +294,15 @@ int main(int argc, char* argv[])
       delete list_seq;
     }
 
-    if(!skip_line_span)
+    if(!skip_piece_chain)
     {     
-      // std::cout << "testing line_span sequence!" << std::endl;
-      // sequences::line_span_method*   line_span_seq  = new sequences::line_span_method( configs.sequenz_size, 'a');
-      // i_vec.clear(); a_vec.clear();
-      // test_run( configs, distribution_vec, line_span_seq, i_vec, a_vec );
-      // print_data("line_span_seq", i_vec, a_vec);
-      // delete line_span_seq;
+      std::cout << "testing piece_chain sequence!" << std::endl;
+      sequences::piece_chain_method*   piece_chain_seq  = new sequences::piece_chain_method( configs.sequenz_size, 'a');
+      i_vec.clear(); a_vec.clear();
+      test_run( configs, distribution_vec, piece_chain_seq, i_vec, a_vec );
+      print_data("piece_chain_seq", i_vec, a_vec);
+      piece_chain_seq->debug();
+      delete piece_chain_seq;
     }
 
   } catch(std::exception& e) 
