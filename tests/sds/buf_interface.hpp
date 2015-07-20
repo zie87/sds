@@ -15,14 +15,13 @@ namespace test
 
     virtual ~buf_interface() {};
 
-    // virtual void insert( size_type pos, value_type val ) = 0;
-    // virtual void erase( size_type pos)                   = 0;
-    // virtual value_type at(size_type pos)                 = 0;
-    // virtual string_type str() const                      = 0;
+    virtual void insert( size_type pos, value_type val ) = 0;
+    virtual void erase( size_type pos)                   = 0;
+    virtual value_type at(size_type pos)                 = 0;
+    virtual string_type str() const                      = 0;
 
-    // virtual size_type size() const noexcept              = 0;
-    
-    virtual bool empty() const noexcept                     = 0;
+    virtual size_type size() const noexcept              = 0;
+    virtual bool empty() const noexcept                  = 0;
   };
 
 } // test

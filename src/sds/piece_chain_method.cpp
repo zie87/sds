@@ -209,13 +209,19 @@ namespace sequences
     // split is needed
     if( (piece_ptr->length - erase_offset) > erase_length )
     {
-      size_type remove_size = erase_offset + erase_length;
-      piece_node* split_node = new piece_node( piece_ptr->pos + remove_size, piece_ptr->length - remove_size, piece_ptr->buffer_id );
+      size_type new_pos     = erase_offset + erase_length;
+      piece_node* split_ptr = new piece_node( piece_ptr->pos + new_pos , piece_ptr->length - new_pos, piece_ptr->buffer_id );
+      piece_ptr->length     = erase_offset;
 
-      split_node->next  = piece_ptr->next;
-      split_node->prev  = piece_ptr;
-      piece_ptr->next   = split_node;
-      piece_ptr->length = erase_offset;
+      piece_node* next_ptr  = piece_ptr->next;
+
+      // connect split with first part
+      piece_ptr->next = split_ptr;
+      split_ptr->prev = piece_ptr;
+
+      // connect split with next
+      next_ptr->prev  = split_ptr;
+      split_ptr->next = next_ptr;
     } else
     {
       piece_ptr->length = erase_offset;
@@ -375,89 +381,66 @@ namespace sequences
 
   }
 
-  // piece_chain_method::search_node piece_chain_method::search_piece_forwards(size_type pos, piece_node* head_ptr, piece_node* tail_ptr) const noexcept
-  // {
-  //   search_node search_piece;
-  //   size_type   current_pos = 0;
 
-  //   // scan the list looking for the piece which holds the specified position
-  //   for(search_piece.node = head_ptr; search_piece.node != tail_ptr; search_piece.node = search_piece.node->next)
-  //   {
-  //     if( (pos >= current_pos) && (pos < current_pos + search_piece.node->length) )
-  //     { 
-  //       search_piece.pos = current_pos;
-  //       return search_piece;
-  //     }
-  //     current_pos += search_piece.node->length;
-  //   }
-  //   // insert at tail
-  //   if(pos == current_pos)
-  //   {
-  //     search_piece.pos = current_pos;
-  //     return search_piece;
-  //   }
-  //   return search_node();
-  // }
+  piece_chain_method::search_node piece_chain_method::search_piece_backwards(size_type pos, const piece_node& tail_node, const piece_node& head_node, size_type last_pos) const noexcept
+  {
+    piece_node* sptr = nullptr;
+    for(sptr = tail_node.prev; sptr != &head_node; sptr = sptr->prev)
+    {
+      auto buffer = m_buffer_list[sptr->buffer_id]->buffer;
+      std::cout << "{" << std::setw(10) << sptr->buffer_id << "}"
+                << "[" << std::left << std::setw(10) << sptr->pos 
+                << "<" << std::right << std::setw(16) << sptr << ">"
+                << std::right << std::setw(10) << sptr->length << "]\t"
+                << string_type( buffer + sptr->pos, buffer + sptr->pos + sptr->length )
+                << std::endl;
+    }
 
-  // piece_chain_method::search_node piece_chain_method::search_piece_backwards(size_type pos, const piece_node& tail_node, const piece_node& head_node, size_type last_pos) const noexcept
-  // {
-    // piece_node* sptr = nullptr;
-    // for(sptr = tail_node.prev; sptr != &head_node; sptr = sptr->prev)
-    // {
-    //   auto buffer = m_buffer_list[sptr->buffer_id]->buffer;
-    //   std::cout << "{" << std::setw(10) << sptr->buffer_id << "}"
-    //             << "[" << std::left << std::setw(10) << sptr->pos 
-    //             << "<" << std::right << std::setw(16) << sptr << ">"
-    //             << std::right << std::setw(10) << sptr->length << "]\t"
-    //             << string_type( buffer + sptr->pos, buffer + sptr->pos + sptr->length )
-    //             << std::endl;
-    // }
+    std::cout << "*** search_piece_backwards ***" << std::endl;    
+    std::cout << "pos: " << pos << " last_pos: " << last_pos << std::endl;
+    std::cout << "head_node: " << &head_node << " tail_node: " << &tail_node << std::endl;
 
-    // std::cout << "*** search_piece_backwards ***" << std::endl;    
-    // std::cout << "pos: " << pos << " last_pos: " << last_pos << std::endl;
-    // std::cout << "head_node: " << &head_node << " tail_node: " << &tail_node << std::endl;
+    piece_node* tmp = head_node.next;
+    while( tmp != &tail_node )
+    {
+      std::cout << "FRONT " << tmp << std::endl;
+      tmp = tmp->next;
+    } 
+    tmp = tail_node.prev;
+    while( tmp != &head_node )
+    {
+      std::cout << "BACK: " << tmp << std::endl;
+      tmp = tmp->prev;
+    } 
 
-    // piece_node* tmp = head_node.next;
-    // while( tmp != &tail_node )
-    // {
-    //   std::cout << "FRONT " << tmp << std::endl;
-    //   tmp = tmp->next;
-    // } 
-    // tmp = tail_node.prev;
-    // while( tmp != &head_node )
-    // {
-    //   std::cout << "BACK: " << tmp << std::endl;
-    //   tmp = tmp->prev;
-    // } 
+    search_node s_piece;
+    size_type   current_pos = last_pos;
 
-    // search_node s_piece;
-    // size_type   current_pos = last_pos;
+    if( pos == current_pos )
+    {
+      std::cout << "return tail" << std::endl;
+      return search_node(current_pos, tail_node.prev->next );
+    }
 
-    // if( pos == current_pos )
-    // {
-    //   std::cout << "return tail" << std::endl;
-    //   return search_node(current_pos, tail_node.prev->next );
-    // }
+    for( s_piece.node = tail_node.prev; s_piece.node != &head_node; s_piece.node = s_piece.node->prev )
+    {
+      std::cout << " node: " << s_piece.node << " current_pos:" << current_pos << " node length: " << s_piece.node->length << std::endl;
+      current_pos -= s_piece.node->length;
+      if( (pos >= current_pos) && (pos < current_pos + s_piece.node->length) )
+      { 
+        s_piece.pos = current_pos;
+        return s_piece;
+      }
+    }
+    if(pos == current_pos)
+    {
+      s_piece.pos  = current_pos;
+      // s_piece.node = s_piece.node->next;
+      return s_piece;
+    }
 
-    // for( s_piece.node = tail_node.prev; s_piece.node != &head_node; s_piece.node = s_piece.node->prev )
-    // {
-    //   std::cout << " node: " << s_piece.node << " current_pos:" << current_pos << " node length: " << s_piece.node->length << std::endl;
-    //   current_pos -= s_piece.node->length;
-    //   if( (pos >= current_pos) && (pos < current_pos + s_piece.node->length) )
-    //   { 
-    //     s_piece.pos = current_pos;
-    //     return s_piece;
-    //   }
-    // }
-    // if(pos == current_pos)
-    // {
-    //   s_piece.pos  = current_pos;
-    //   // s_piece.node = s_piece.node->next;
-    //   return s_piece;
-    // }
-
-  //   return search_node();
-  // }
+    return search_node();
+  }
 
   // piece_chain_method::search_node piece_chain_method::search_piece_backwards(size_type pos, piece_node* tail_ptr, piece_node* head_ptr, size_type size) const noexcept
   // {

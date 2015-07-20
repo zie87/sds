@@ -61,7 +61,6 @@ namespace sequences
       bool empty() const noexcept override;
 
       string_type str() const noexcept override;
-
       void debug() const noexcept;
     private:
       size_type         m_size;
@@ -124,7 +123,7 @@ namespace sequences
 
       inline search_node search_piece(size_type pos) const noexcept;
       inline search_node search_piece_forwards(size_type pos, const piece_node& head_node, const piece_node& tail_node, size_type first_pos) const noexcept;
-      // inline search_node search_piece_backwards(size_type pos, const piece_node& head_node, const piece_node& tail_node, size_type last_pos) const noexcept;
+      inline search_node search_piece_backwards(size_type pos, const piece_node& head_node, const piece_node& tail_node, size_type last_pos) const noexcept;
       // inline search_node search_piece_backwards(size_type pos, piece_node* tail_ptr, piece_node* head_ptr, size_type size) const noexcept;
 
       inline bool can_optimize(action act, size_type pos);

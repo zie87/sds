@@ -70,7 +70,7 @@ struct piece_chain_tests : ut::testcase<>
     pc.insert(5, 5, 'Q');
     uta::assert_equal( 35, pc.size() );
 
-    pc.debug();
+    // pc.debug();
 
     sequences::piece_chain_method pc2(20, 'A');
     uta::assert_equal( 20, pc2.size() );
