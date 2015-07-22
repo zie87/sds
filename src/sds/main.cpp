@@ -301,7 +301,7 @@ int main(int argc, char* argv[])
       i_vec.clear(); a_vec.clear();
       test_run( configs, distribution_vec, piece_chain_seq, i_vec, a_vec );
       print_data("piece_chain_seq", i_vec, a_vec);
-      piece_chain_seq->debug();
+      // piece_chain_seq->debug();
       delete piece_chain_seq;
     }
 
