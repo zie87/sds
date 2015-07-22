@@ -1,4 +1,4 @@
-#include "piece_chain.hpp"
+#include <neatpad/piece_chain.hpp>
 
 int main()
 {

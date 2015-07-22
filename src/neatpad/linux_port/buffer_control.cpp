@@ -1,4 +1,4 @@
-#include "buffer_control.hpp"
+#include <neatpad/buffer_control.hpp>
 
 namespace neatpad
 {

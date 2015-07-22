@@ -94,6 +94,8 @@ class piece_chain
     value_type   peek(size_type index) const;
     bool    poke(size_type index, value_type val);
 
+    ref at( size_type index ); 
+
     value_type   operator[] (size_type index) const;
     ref     operator[] (size_type index);
 

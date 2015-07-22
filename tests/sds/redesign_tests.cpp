@@ -117,10 +117,10 @@ struct redesign_tests : ut::testcase<>
 
     for(unsigned int i = 0; i < 56; ++i)
     {
-      pc.insert(200, 'D');
+      pc.insert(200+i, 'D');
     }
-    uta::assert_equal(1100, pc.size()); // without optimization 60 nodes
-    pc.debug();
+    uta::assert_equal(1100, pc.size()); // without optimization 60 nodes, with 6
+    // pc.debug();
   };
 };
 

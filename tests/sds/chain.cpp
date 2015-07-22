@@ -85,7 +85,8 @@ namespace test
     if(pos > size() ) throw std::out_of_range("insert position higher then size! (piece_chain)");
     size_type     id = alloc_buffer(len);
     buffer_type* buf = m_buffers[id];
-    std::fill( buf->buffer, buf->buffer+len, v );
+    // std::fill( buf->buffer, buf->buffer+len, v );
+    std::fill_n(buf->buffer, len, v);
     buf->size = len;
 
     piece_node* new_piece = new piece_node(0, len, id);
@@ -115,6 +116,18 @@ namespace test
     std::copy( s, s + len, buf->buffer + m_modify_buf.pos );
     buf->size += len;
     m_modify_buf.pos += len;
+
+    // append to last search?
+    if( (m_last_search.pos <= pos) && (pos == (m_last_search.pos + m_last_search.node->length)) )
+    {
+      piece_node* last_ptr = m_last_search.node;
+      if( (last_ptr->buffer_id == m_modify_buf.id) && ( last_ptr->pos + last_ptr->length == buf->size - len ) )
+      {
+        last_ptr->length += len;
+        m_size += len;
+        return;
+      }
+    }
 
     piece_node* new_piece = new piece_node(m_modify_buf.pos - len, len, m_modify_buf.id);
 

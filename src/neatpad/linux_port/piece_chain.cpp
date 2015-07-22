@@ -5,7 +5,7 @@
 #include <iostream>  // for debug
 #include <algorithm>
 
-#include "piece_chain.hpp"
+#include <neatpad/piece_chain.hpp>
 
 namespace neatpad
 {
@@ -753,6 +753,9 @@ piece_chain::value_type piece_chain::operator[] (size_type index) const
 {
   return peek(index);
 }
+
+piece_chain::ref piece_chain::at(size_type index) { return (*this)[index]; }
+
 
 //  piece_chain::operator[] 
 //
