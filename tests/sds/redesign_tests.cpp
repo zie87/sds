@@ -26,7 +26,7 @@ struct redesign_tests : ut::testcase<>
 
   void simple_test()
   {
-    test::piece_chain pc;
+    test::piece_chain_method pc;
     uta::assert_equal( 0, pc.size() );
     uta::assert_true( pc.empty() );
     uta::assert_true( pc.begin() == pc.end() );
@@ -66,7 +66,7 @@ struct redesign_tests : ut::testcase<>
 
   void fill_test()
   {
-    test::piece_chain pc;
+    test::piece_chain_method pc;
     pc.append("A large span of text", 20);
     uta::assert_equal( 20, pc.size() );
 
@@ -79,7 +79,7 @@ struct redesign_tests : ut::testcase<>
 
     // pc.debug();
 
-    test::piece_chain pc2(20, 'A');
+    test::piece_chain_method pc2(20, 'A');
     uta::assert_equal( 20, pc2.size() );
     for(unsigned int i = 0; i < 20; ++i )
     {
@@ -89,7 +89,7 @@ struct redesign_tests : ut::testcase<>
 
   void iterator_test()
   {
-    test::piece_chain pc(20, 'A');
+    test::piece_chain_method pc(20, 'A');
 
     unsigned int cnt = 0;
     for( auto it = pc.begin(); it != pc.end(); ++it )
@@ -100,7 +100,7 @@ struct redesign_tests : ut::testcase<>
     uta::assert_equal( 20, cnt );
 
     cnt = 0;
-    for( test::piece_chain::const_iterator it = pc.begin(); it != pc.end(); ++it)
+    for( test::piece_chain_method::const_iterator it = pc.begin(); it != pc.end(); ++it)
     {
       uta::assert_equal(*it, 'A');
       ++cnt;
@@ -110,7 +110,7 @@ struct redesign_tests : ut::testcase<>
 
   void insert_test()
   {
-    test::piece_chain pc(1024, 'A');
+    test::piece_chain_method pc(1024, 'A');
     pc.append(10, 'C');
     pc.append("BBBBBBBBBB", 10);
     uta::assert_equal(1044, pc.size());

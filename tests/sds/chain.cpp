@@ -9,7 +9,7 @@
 namespace test
 {
 
-  static const piece_chain::size_type INIT_SIZE = 0x10000;
+  static const piece_chain_method::size_type INIT_SIZE = 0x10000;
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@ namespace test
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-  piece_chain::piece_chain() noexcept
+  piece_chain_method::piece_chain_method() noexcept
   : basic_type(), m_head(), m_tail(), m_buffers(), m_modify_buf(), m_last_search()
   , m_size(0)
   {
@@ -29,14 +29,14 @@ namespace test
     m_tail.prev = &m_head;
   }
 
-  piece_chain::piece_chain(size_type size, value_type val)
-  : piece_chain()
+  piece_chain_method::piece_chain_method(size_type size, value_type val)
+  : piece_chain_method()
   { append(size, val); }
 
-  piece_chain::~piece_chain() noexcept { clear(); }
+  piece_chain_method::~piece_chain_method() noexcept { clear(); }
 
 
-  void piece_chain::clear() noexcept
+  void piece_chain_method::clear() noexcept
   {
     for(size_type i = 0; i < m_buffers.size(); ++i)
     {
@@ -59,9 +59,9 @@ namespace test
     m_size = 0;
   }
 
-  piece_chain::value_type piece_chain::at(size_type pos)
+  piece_chain_method::value_type piece_chain_method::at(size_type pos)
   {
-    if(pos > size() ) throw std::out_of_range("at position higher then size! (piece_chain)");
+    if(pos > size() ) throw std::out_of_range("at position higher then size! (piece_chain_method)");
 
     search_node s_node = search_piece(pos);
          m_last_search = s_node;
@@ -73,16 +73,16 @@ namespace test
   }
 
 
-  piece_chain::size_type piece_chain::size() const noexcept { return m_size; }
-  bool piece_chain::empty() const noexcept { return m_head.next == &m_tail; }
+  piece_chain_method::size_type piece_chain_method::size() const noexcept { return m_size; }
+  bool piece_chain_method::empty() const noexcept { return m_head.next == &m_tail; }
 
-  void piece_chain::append(const value_type* s, size_type len){ insert(m_size, s, len); }
-  void piece_chain::append(size_type len, value_type v){ insert(m_size, len, v); }
+  void piece_chain_method::append(const value_type* s, size_type len){ insert(m_size, s, len); }
+  void piece_chain_method::append(size_type len, value_type v){ insert(m_size, len, v); }
 
-  void piece_chain::insert(size_type pos, value_type v) { insert(pos, &v, 1); }
-  void piece_chain::insert(size_type pos, size_type len, value_type v)
+  void piece_chain_method::insert(size_type pos, value_type v) { insert(pos, &v, 1); }
+  void piece_chain_method::insert(size_type pos, size_type len, value_type v)
   {
-    if(pos > size() ) throw std::out_of_range("insert position higher then size! (piece_chain)");
+    if(pos > size() ) throw std::out_of_range("insert position higher then size! (piece_chain_method)");
     size_type     id = alloc_buffer(len);
     buffer_type* buf = m_buffers[id];
     // std::fill( buf->buffer, buf->buffer+len, v );
@@ -96,9 +96,9 @@ namespace test
   }
 
 
-  void piece_chain::insert(size_type pos, const value_type* s, size_type len )
+  void piece_chain_method::insert(size_type pos, const value_type* s, size_type len )
   {
-    if(pos > size() ) throw std::out_of_range("insert position higher then size! (piece_chain)");
+    if(pos > size() ) throw std::out_of_range("insert position higher then size! (piece_chain_method)");
 
     // check if modify buffer exist if not create one
     if( m_modify_buf.id > m_buffers.size() ) alloc_modify_buffer( len + INIT_SIZE );
@@ -136,10 +136,10 @@ namespace test
   }
 
 
-  void piece_chain::erase(size_type pos) { erase(pos,1); }
-  void piece_chain::erase(size_type pos, size_type len)
+  void piece_chain_method::erase(size_type pos) { erase(pos,1); }
+  void piece_chain_method::erase(size_type pos, size_type len)
   {
-    if(pos > size() ) throw std::out_of_range("erase position higher then size! (piece_chain)");
+    if(pos > size() ) throw std::out_of_range("erase position higher then size! (piece_chain_method)");
   
     // reduce erase length if neccessary
     if( (pos + len) > m_size ) len = m_size - pos;
@@ -197,7 +197,7 @@ namespace test
     m_size -= len;
   }
 
-  piece_chain::size_type piece_chain::alloc_buffer( size_type capacity )
+  piece_chain_method::size_type piece_chain_method::alloc_buffer( size_type capacity )
   {
     size_type idx = m_buffers.size();
   
@@ -207,14 +207,14 @@ namespace test
     return idx;
   }
 
-  void  piece_chain::alloc_modify_buffer( size_type capacity )
+  void  piece_chain_method::alloc_modify_buffer( size_type capacity )
   {
     size_type id = alloc_buffer(capacity);
     m_modify_buf.id  = id;
     m_modify_buf.pos = 0;
   }
 
-  piece_chain::search_node piece_chain::search_piece(size_type pos) const noexcept
+  piece_chain_method::search_node piece_chain_method::search_piece(size_type pos) const noexcept
   {
     // check head and tail;
     if( pos == 0 )      { return search_node( 0, m_head.next); };
@@ -260,7 +260,7 @@ namespace test
     return s_piece;
   }
 
-  piece_chain::search_node piece_chain::search_piece_forwards(size_type pos, const piece_node& head_node, const piece_node& tail_node, size_type first_pos) const noexcept
+  piece_chain_method::search_node piece_chain_method::search_piece_forwards(size_type pos, const piece_node& head_node, const piece_node& tail_node, size_type first_pos) const noexcept
   {
     search_node s_piece;
     size_type   current_pos = first_pos;
@@ -277,7 +277,7 @@ namespace test
     return search_node();
   }
 
-  piece_chain::search_node piece_chain::search_piece_backwards(size_type pos, const piece_node& tail_node, const piece_node& head_node, size_type last_pos) const noexcept
+  piece_chain_method::search_node piece_chain_method::search_piece_backwards(size_type pos, const piece_node& tail_node, const piece_node& head_node, size_type last_pos) const noexcept
   {
     search_node s_piece;
     size_type   current_pos = last_pos;
@@ -294,7 +294,7 @@ namespace test
     return search_node();
   }
 
-  void  piece_chain::insert_piece(size_type pos, piece_node* new_piece, size_type len)
+  void  piece_chain_method::insert_piece(size_type pos, piece_node* new_piece, size_type len)
   {
 
     search_node   s_node = search_piece(pos);
@@ -341,7 +341,7 @@ namespace test
     }
   }
 
-  piece_chain::string_type piece_chain::str() const noexcept
+  piece_chain_method::string_type piece_chain_method::str() const noexcept
   {
     string_type str;
     piece_node* tmp = m_head.next;
@@ -355,7 +355,7 @@ namespace test
     return str;
   }
 
-  void piece_chain::debug () const noexcept
+  void piece_chain_method::debug () const noexcept
   {
     piece_node* sptr = nullptr;
 
@@ -397,7 +397,7 @@ namespace test
       std::cout << string_type( buffer + sptr->pos, buffer + sptr->pos + sptr->length );
     }
 
-    std::cout << std::endl << "piece_chain length = " << m_size << " chars " << node_cnt << " nodes" <<  std::endl;
+    std::cout << std::endl << "piece_chain_method length = " << m_size << " chars " << node_cnt << " nodes" <<  std::endl;
     std::cout << std::endl;
   }
 

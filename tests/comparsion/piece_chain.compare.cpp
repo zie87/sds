@@ -71,7 +71,7 @@ int main()
 
   sequences::piece_chain_method   sds_pc;
   neatpad::piece_chain            nep_pc; nep_pc.init();
-  test::piece_chain               tes_pc;
+  test::piece_chain_method        tes_pc;
 
   using clock_t      = std::chrono::steady_clock;
   using duration_t   = std::chrono::nanoseconds;

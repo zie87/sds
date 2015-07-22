@@ -1,8 +1,7 @@
 #ifndef TEST_CHAIN_HPP
 #define TEST_CHAIN_HPP
 
-#include "buf_interface.hpp"
-
+#include <sds/sequence_interface.hpp>
 #include <sds/buffer_controller.hpp>
 
 #include <vector>
@@ -28,10 +27,10 @@ namespace test
     piece_node* prev = nullptr;
   };
 
-  class piece_chain : public buf_interface
+  class piece_chain_method : public ::sequences::sequence_interface
   {
     public:
-      using basic_type  = buf_interface;
+      using basic_type  = ::sequences::sequence_interface;
       using value_type  = typename basic_type::value_type;
 
       using pointer     = value_type*;
@@ -59,16 +58,16 @@ namespace test
 
       struct iterator
       {
-        using value_type  = typename piece_chain::value_type;
-        using pointer     = typename piece_chain::pointer;
-        using reference   = typename piece_chain::reference;
+        using value_type  = typename piece_chain_method::value_type;
+        using pointer     = typename piece_chain_method::pointer;
+        using reference   = typename piece_chain_method::reference;
 
-        using size_type       = typename piece_chain::size_type;
-        using difference_type = typename piece_chain::difference_type;
+        using size_type       = typename piece_chain_method::size_type;
+        using difference_type = typename piece_chain_method::difference_type;
 
         using iterator_category = std::bidirectional_iterator_tag;
 
-        iterator(const piece_chain* parent) noexcept : m_parent(parent) {};
+        iterator(const piece_chain_method* parent) noexcept : m_parent(parent) {};
         iterator(const iterator& it) noexcept
         : m_parent(it.m_parent), m_pos( it.m_pos ), m_node(it.m_node) 
         {}
@@ -102,42 +101,42 @@ namespace test
 
         reference operator*() const
         {
-          piece_chain::buffer_type* buf = m_parent->m_buffers[ m_node->buffer_id ];
+          piece_chain_method::buffer_type* buf = m_parent->m_buffers[ m_node->buffer_id ];
           return  buf->buffer[ m_node->pos + m_pos ];
         }
         pointer operator->() const
         {
-          piece_chain::buffer_type* buf = m_parent->m_buffers[ m_node->buffer_id ];
+          piece_chain_method::buffer_type* buf = m_parent->m_buffers[ m_node->buffer_id ];
           return  &buf->buffer[ m_node->pos + m_pos ];
         }
         private:
-          iterator(const piece_chain* parent, piece_node* node, size_type pos) noexcept
+          iterator(const piece_chain_method* parent, piece_node* node, size_type pos) noexcept
           : m_parent(parent), m_pos(pos), m_node( node )
           {
             if(m_pos > 0 && m_pos == m_node->length) m_pos = ( m_node->length - 1);
           }
 
-          const piece_chain* m_parent;
+          const piece_chain_method* m_parent;
 
           size_type     m_pos      = 0;
           piece_node*   m_node     = nullptr;
 
-          friend class piece_chain;
-          friend class piece_chain::const_iterator;
+          friend class piece_chain_method;
+          friend class piece_chain_method::const_iterator;
       };
 
       struct const_iterator 
       {
-        using value_type  = typename piece_chain::value_type;
-        using pointer     = typename piece_chain::const_pointer;
-        using reference   = typename piece_chain::const_reference;
+        using value_type  = typename piece_chain_method::value_type;
+        using pointer     = typename piece_chain_method::const_pointer;
+        using reference   = typename piece_chain_method::const_reference;
 
-        using size_type       = typename piece_chain::size_type;
-        using difference_type = typename piece_chain::difference_type;
+        using size_type       = typename piece_chain_method::size_type;
+        using difference_type = typename piece_chain_method::difference_type;
 
         using iterator_category = std::bidirectional_iterator_tag;
 
-        const_iterator(const piece_chain* parent) noexcept : m_parent(parent) {};
+        const_iterator(const piece_chain_method* parent) noexcept : m_parent(parent) {};
         const_iterator(const iterator& it) noexcept
         : m_parent(it.m_parent), m_pos( it.m_pos ), m_node(it.m_node) 
         {}
@@ -174,38 +173,38 @@ namespace test
 
         reference operator*() const
         {
-          piece_chain::buffer_type* buf = m_parent->m_buffers[ m_node->buffer_id ];
+          piece_chain_method::buffer_type* buf = m_parent->m_buffers[ m_node->buffer_id ];
           return  buf->buffer[ m_node->pos + m_pos ];
         }
         pointer operator->() const
         {
-          piece_chain::buffer_type* buf = m_parent->m_buffers[ m_node->buffer_id ];
+          piece_chain_method::buffer_type* buf = m_parent->m_buffers[ m_node->buffer_id ];
           return  &buf->buffer[ m_node->pos + m_pos ];
         }
         private:
-          const_iterator(const piece_chain* parent, piece_node* node, size_type pos) noexcept
+          const_iterator(const piece_chain_method* parent, piece_node* node, size_type pos) noexcept
           : m_parent(parent), m_pos(pos), m_node( node )
           {
             if(m_pos > 0 && m_pos == m_node->length) m_pos = ( m_node->length - 1);
           }
 
-          const piece_chain* m_parent;
+          const piece_chain_method* m_parent;
           size_type     m_pos      = 1;
           piece_node*   m_node     = nullptr;
 
-          friend class piece_chain;
+          friend class piece_chain_method;
       };
 
 
 
 
-      piece_chain() noexcept;
-      ~piece_chain() noexcept;
+      piece_chain_method() noexcept;
+      ~piece_chain_method() noexcept;
 
-      explicit piece_chain(size_type size, value_type val);
+      explicit piece_chain_method(size_type size, value_type val);
       
-      piece_chain(const piece_chain&)            = delete;
-      piece_chain& operator=(const piece_chain&) = delete;
+      piece_chain_method(const piece_chain_method&)            = delete;
+      piece_chain_method& operator=(const piece_chain_method&) = delete;
 
             iterator begin()       noexcept { return       iterator( this, m_head.next, 0 ); }
       const_iterator begin() const noexcept { return const_iterator( this, m_head.next, 0 ); }

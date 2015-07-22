@@ -8,9 +8,10 @@ namespace sequences
 
   struct sequence_interface
   {
-    using value_type  = char;
-    using size_type   = std::size_t;
-    using string_type = std::basic_string<value_type>;
+    using value_type        = char;
+    using size_type         = std::size_t;
+    using difference_type   = std::ptrdiff_t;
+    using string_type       = std::basic_string<value_type>;
 
     virtual ~sequence_interface() {};
 
