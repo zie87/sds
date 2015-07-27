@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import glob
 
+path_str  = "../build/"
+sequences = ["array_seq", "piece_chain_seq", "gap_seq", "list_seq"]
+
 
 def calc_matrix(files):
   data = []
@@ -17,146 +20,78 @@ def calc_matrix(files):
   matrix /= data_count
   return matrix;
 
+def plot_insert(path,ending, save = False):
+  fig = plt.figure()
+  ax = fig.add_subplot(111)
 
+  matrices = []
+  for seq in sequences:
+    glob_pattern  = path + "*" + seq  + ending + ".csv"
+    files         = glob.glob(glob_pattern)
+    matrix        = calc_matrix(files)
+    ax.plot( matrix[:,0], matrix[:,1], label=seq)
+    matrices.append(matrix)
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
+  plt.title('Insert - Size of Sequence')
+  plt.ylabel('ns/call')
+  plt.xlabel('size')
+  plt.legend( loc='upper center', bbox_to_anchor=(0.5, -0.05),
+          fancybox=True, shadow=True, ncol=len(sequences))
 
-arr_seq_files  = glob.glob("../build/*array_seq_insert.csv")
-arr_seq_matrix = calc_matrix(arr_seq_files)
-ax.plot( arr_seq_matrix[:,0], arr_seq_matrix[:,1], label="array_seq" )
+  if(save):
+    file_name = "plot" + ending + "-insert.png"
+    plt.savefig(file_name)
+  else:
+    plt.show()
 
-gap_seq_files  = glob.glob("../build/*gap_seq_insert.csv")
-gap_seq_matrix = calc_matrix(gap_seq_files)
-ax.plot( gap_seq_matrix[:,0], gap_seq_matrix[:,1], label="gap_seq" )
+  fig = plt.figure()
+  ax = fig.add_subplot(111)
 
-list_seq_files  = glob.glob("../build/*list_seq_insert.csv")
-list_seq_matrix = calc_matrix(list_seq_files)
-ax.plot( list_seq_matrix[:,0], list_seq_matrix[:,1], label="list_seq" )
+  for i in range(0, len(sequences)):
+    ax.plot( matrices[i][:,0], matrices[i][:,2], label=sequences[i] )
 
-pc_seq_files  = glob.glob("../build/*piece_chain_seq_insert.csv")
-pc_seq_matrix = calc_matrix(pc_seq_files)
-ax.plot( pc_seq_matrix[:,0], pc_seq_matrix[:,1], label="piece_chain_seq" )
+  plt.title('Border Access - Size of Sequence')
+  plt.ylabel('ns/call')
+  plt.xlabel('size')
+  plt.legend( loc='upper center', bbox_to_anchor=(0.5, -0.05),
+          fancybox=True, shadow=True, ncol=len(sequences))
 
-plt.title('Insert - Size of Sequence')
-plt.ylabel('ns/call')
-plt.xlabel('size')
-plt.legend(loc='best', title='Structures')
-# plt.savefig("insert.png")
-plt.show()
+  if(save):
+    file_name = "plot" + ending + "-border_access.png"
+    plt.savefig(file_name)
+  else:
+    plt.show()
 
-#border access
-fig = plt.figure()
-ax = fig.add_subplot(111)
+def plot_access(path, ending, save = False):
+  # complet access
+  fig = plt.figure()
+  ax = fig.add_subplot(111)
 
-ax.plot( arr_seq_matrix[:,0], arr_seq_matrix[:,2], label="array_seq" )
-ax.plot( gap_seq_matrix[:,0], gap_seq_matrix[:,2], label="gap_seq" )
-ax.plot( list_seq_matrix[:,0], list_seq_matrix[:,2], label="list_seq" )
-ax.plot( pc_seq_matrix[:,0], pc_seq_matrix[:,2], label="piece_chain_seq" )
+  for seq in sequences:
+    glob_pattern  = path + "*" + seq  + ending + ".csv"
+    files         = glob.glob(glob_pattern)
+    matrix        = calc_matrix(files)
+    ax.plot( matrix[:,0], matrix[:,1], label=seq)
 
-plt.title('Border Access - Size of Sequence')
-plt.ylabel('ns/call')
-plt.xlabel('size')
-plt.legend(loc='best', title='Structures')
-# plt.savefig("border_access.png")
-plt.show()
+  plt.title('Access - Size of Sequence')
+  plt.ylabel('ns/call')
+  plt.xlabel('size')
+  plt.legend( loc='upper center', bbox_to_anchor=(0.5, -0.05),
+          fancybox=True, shadow=True, ncol=len(sequences))
+  if(save):
+    file_name = "plot" + ending + ".png"
+    plt.savefig(file_name)
+  else:
+    plt.show()
 
-# complet access
-fig = plt.figure()
-ax = fig.add_subplot(111)
+plot_insert(path_str, "_insert")
+plot_access(path_str, "_access")
 
-arr_seq_files  = glob.glob("../build/*array_seq_access.csv")
-arr_seq_matrix = calc_matrix(arr_seq_files)
-ax.plot( arr_seq_matrix[:,0], arr_seq_matrix[:,1], label="array_seq" )
+plot_insert(path_str, "_seqtest_insert")
+plot_access(path_str, "_seqtest_access")
 
-gap_seq_files  = glob.glob("../build/*gap_seq_access.csv")
-gap_seq_matrix = calc_matrix(gap_seq_files)
-ax.plot( gap_seq_matrix[:,0], gap_seq_matrix[:,1], label="gap_seq" )
+# plot_insert(path_str, "_insert", True)
+# plot_access(path_str, "_access", True)
 
-list_seq_files  = glob.glob("../build/*list_seq_access.csv")
-list_seq_matrix = calc_matrix(list_seq_files)
-ax.plot( list_seq_matrix[:,0], list_seq_matrix[:,1], label="list_seq" )
-
-pc_seq_files  = glob.glob("../build/*piece_chain_seq_access.csv")
-pc_seq_matrix = calc_matrix(pc_seq_files)
-ax.plot( pc_seq_matrix[:,0], pc_seq_matrix[:,1], label="piece_chain_seq" )
-
-plt.title('Access - Size of Sequence')
-plt.ylabel('ns/call')
-plt.xlabel('size')
-plt.legend(loc='best', title='Structures')
-# plt.savefig("access.png")
-plt.show()
-
-################################################################################
-################################################################################
-################################################################################
-
-fig = plt.figure()
-ax = fig.add_subplot(111)
-
-arr_seq_files  = glob.glob("../build/*array_seq_seqtest_insert.csv")
-arr_seq_matrix = calc_matrix(arr_seq_files)
-ax.plot( arr_seq_matrix[:,0], arr_seq_matrix[:,1], label="array_seq" )
-
-gap_seq_files  = glob.glob("../build/*gap_seq_seqtest_insert.csv")
-gap_seq_matrix = calc_matrix(gap_seq_files)
-ax.plot( gap_seq_matrix[:,0], gap_seq_matrix[:,1], label="gap_seq" )
-
-list_seq_files  = glob.glob("../build/*list_seq_seqtest_insert.csv")
-list_seq_matrix = calc_matrix(list_seq_files)
-ax.plot( list_seq_matrix[:,0], list_seq_matrix[:,1], label="list_seq" )
-
-pc_seq_files  = glob.glob("../build/*piece_chain_seq_seqtest_insert.csv")
-pc_seq_matrix = calc_matrix(pc_seq_files)
-ax.plot( pc_seq_matrix[:,0], pc_seq_matrix[:,1], label="piece_chain_seq" )
-
-plt.title('Insert - Size of Sequence (seq) ')
-plt.ylabel('ns/call')
-plt.xlabel('size')
-plt.legend(loc='best', title='Structures')
-# plt.savefig("insert.png")
-plt.show()
-
-#border access
-fig = plt.figure()
-ax = fig.add_subplot(111)
-
-ax.plot( arr_seq_matrix[:,0], arr_seq_matrix[:,2], label="array_seq" )
-ax.plot( gap_seq_matrix[:,0], gap_seq_matrix[:,2], label="gap_seq" )
-ax.plot( list_seq_matrix[:,0], list_seq_matrix[:,2], label="list_seq" )
-ax.plot( pc_seq_matrix[:,0], pc_seq_matrix[:,2], label="piece_chain_seq" )
-
-plt.title('Border Access - Size of Sequence (seq) ')
-plt.ylabel('ns/call')
-plt.xlabel('size')
-plt.legend(loc='best', title='Structures')
-# plt.savefig("border_access.png")
-plt.show()
-
-# complet access
-fig = plt.figure()
-ax = fig.add_subplot(111)
-
-arr_seq_files  = glob.glob("../build/*array_seq_seqtest_access.csv")
-arr_seq_matrix = calc_matrix(arr_seq_files)
-ax.plot( arr_seq_matrix[:,0], arr_seq_matrix[:,1], label="array_seq" )
-
-gap_seq_files  = glob.glob("../build/*gap_seq_seqtest_access.csv")
-gap_seq_matrix = calc_matrix(gap_seq_files)
-ax.plot( gap_seq_matrix[:,0], gap_seq_matrix[:,1], label="gap_seq" )
-
-list_seq_files  = glob.glob("../build/*list_seq_seqtest_access.csv")
-list_seq_matrix = calc_matrix(list_seq_files)
-ax.plot( list_seq_matrix[:,0], list_seq_matrix[:,1], label="list_seq" )
-
-pc_seq_files  = glob.glob("../build/*piece_chain_seq_seqtest_access.csv")
-pc_seq_matrix = calc_matrix(pc_seq_files)
-ax.plot( pc_seq_matrix[:,0], pc_seq_matrix[:,1], label="piece_chain_seq" )
-
-plt.title('Access - Size of Sequence (seq) ')
-plt.ylabel('ns/call')
-plt.xlabel('size')
-plt.legend(loc='best', title='Structures')
-# plt.savefig("access.png")
-plt.show()
+# plot_insert(path_str, "_seqtest_insert", True)
+# plot_access(path_str, "_seqtest_access", True)
