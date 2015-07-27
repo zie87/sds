@@ -10,3 +10,6 @@ You can find a description of the implementation [here](http://www.catch22.net/t
 This directory contains a subfolder with the name 'linux_port'. The code in 
 this folders is nearly the same like the original one. Only the Windows specific 
 parts are removed and the source is split into multiple modules.
+
+other data structurs for text sequences:
+* [Ropes](http://citeseer.ist.psu.edu/viewdoc/download?doi=10.1.1.14.9450&rep=rep1&type=pdf)
