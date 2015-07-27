@@ -5,7 +5,6 @@
 
 #include <neatpad/piece_chain.hpp>
 #include <sds/piece_chain_method.hpp>
-#include "../sds/chain.hpp"
 
 template<class PC>
 void insert_orderer_char_test( PC& chain, unsigned long cnt )
@@ -71,7 +70,6 @@ int main()
 
   sequences::piece_chain_method   sds_pc;
   neatpad::piece_chain            nep_pc; nep_pc.init();
-  test::piece_chain_method        tes_pc;
 
   using clock_t      = std::chrono::steady_clock;
   using duration_t   = std::chrono::nanoseconds;
@@ -97,12 +95,6 @@ int main()
   time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
   std::cout << "nep chain append time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
 
-  start = clock.now();
-  append_test(tes_pc, counter*10);
-  stop = clock.now();
-  time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
-  std::cout << "tes chain append time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
-
   std::cout << std::endl << std::endl;
   // access
   //////////////////////////////////////////////////////////////////////////////
@@ -117,12 +109,6 @@ int main()
   stop = clock.now();
   time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
   std::cout << "nep chain access time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
-
-  start = clock.now();
-  access_test(tes_pc);
-  stop = clock.now();
-  time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
-  std::cout << "tes chain access time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
 
   std::cout << std::endl << std::endl;
   // insert
@@ -139,12 +125,6 @@ int main()
   time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
   std::cout << "nep chain insert ordered char time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
 
-  start = clock.now();
-  insert_orderer_char_test(tes_pc, counter*10);
-  stop = clock.now();
-  time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
-  std::cout << "tes chain insert ordered char time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
-
   std::cout << std::endl << std::endl;
   // access
   //////////////////////////////////////////////////////////////////////////////
@@ -159,12 +139,6 @@ int main()
   stop = clock.now();
   time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
   std::cout << "nep chain access time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
-
-  start = clock.now();
-  access_test(tes_pc);
-  stop = clock.now();
-  time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
-  std::cout << "tes chain access time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
 
   std::cout << std::endl << std::endl;
   // insert
@@ -180,13 +154,6 @@ int main()
   stop = clock.now();
   time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
   std::cout << "nep chain insert multiple char time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
-
-  start = clock.now();
-  insert_multiple_char_test(tes_pc, counter);
-  stop = clock.now();
-  time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
-  std::cout << "tes chain insert multiple char time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
-
   std::cout << std::endl << std::endl;
   // access
   //////////////////////////////////////////////////////////////////////////////
@@ -201,10 +168,4 @@ int main()
   stop = clock.now();
   time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
   std::cout << "nep chain access time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
-
-  start = clock.now();
-  access_test(tes_pc);
-  stop = clock.now();
-  time_cnt = std::chrono::duration_cast<duration_t>(stop - start).count();
-  std::cout << "tes chain access time " << std::right << std::setw(20)  << time_cnt << " ns" << std::endl;
 }

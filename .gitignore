@@ -22,6 +22,9 @@
 *.a
 *.lib
 
+# tmp data
+utils/*.png
+
 # Executables
 *.exe
 *.out

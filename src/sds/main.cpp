@@ -55,7 +55,7 @@ struct configuration
 {
   using size_type = std::size_t;
 
-  size_type number_of_edits      = 6000;//60000; 
+  size_type number_of_edits      = 60000;
 
   size_type sequenz_size         = 8000;
   size_type block_size           = 1024;
@@ -164,29 +164,29 @@ void print_data(const std::string& name, const insert_vec& i_vec, const access_v
   auto in_time_t = std::chrono::system_clock::to_time_t(now);
 
   std::stringstream ss_i;
-  ss_i << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d-%X") << '-' << name << "_insert.txt";
-  // ss_i << name << "_insert.txt";
+  // ss_i << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d-%X") << '-' << name << "_insert.txt";
+  ss_i << in_time_t << "-" << name << "_insert.csv";
 
   std::ofstream log_file( ss_i.str().c_str() );
   for( auto&& it : i_vec )
   {    
-    log_file << "size: "   << std::right << std::setw(15) << it.size
-             << "\tinsert: " << std::right << std::setw(15) << it.insert_time 
-             << "\taccess: " << std::right << std::setw(15) << it.access_time 
+    log_file << std::right << std::setw(15) << it.size
+             << "; " << std::right << std::setw(15) << it.insert_time 
+             << "; " << std::right << std::setw(15) << it.access_time 
              << std::endl; 
   }
 
   log_file.close();
 
   std::stringstream ss_a;
-  ss_a << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d-%X") << '-' << name << "_access.txt";
-  // ss_a << name << "_access.txt";
+  // ss_a << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d-%X") << '-' << name << "_access.txt";
+  ss_a << in_time_t << "-" << name << "_access.csv";
 
   log_file.open(ss_a.str().c_str() );
   for( auto&& it : a_vec )
   {    
-    log_file << "size: " << std::right << std::setw(15) << it.size 
-             << "\ttime: " << std::right << std::setw(15) << it.access_time 
+    log_file <<  std::right << std::setw(15) << it.size 
+             << "; " << std::right << std::setw(15) << it.access_time 
              << std::endl; 
   }
   log_file.close();
@@ -222,8 +222,8 @@ int main(int argc, char* argv[])
     auto in_time_t = std::chrono::system_clock::to_time_t(now);
 
     std::stringstream ss;
-    ss << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d-%X") << "-distribution_positions.dat";
-    // ss << "distribution_positions.dat";
+    // ss << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d-%X") << "-distribution_positions.dat";
+    ss << in_time_t << "-" << "distribution_positions.dat";
     std::string path(ss.str());
 
     if( vm.count("file") )
