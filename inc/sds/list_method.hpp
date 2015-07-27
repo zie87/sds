@@ -27,6 +27,7 @@ namespace sequences
       list_method(const list_method&)            = delete;
       list_method& operator=(const list_method&) = delete;
 
+      void insert(size_type pos, size_type len, value_type val) override;
       void insert( size_type pos, value_type val ) override;
       void erase( size_type pos) override;
       value_type at(size_type pos) override;

@@ -223,7 +223,7 @@ namespace sequences
 
       void insert(size_type pos, const value_type* s, size_type len);
       void insert(size_type pos, value_type v) override;
-      void insert(size_type pos, size_type len, value_type v);
+      void insert(size_type pos, size_type len, value_type v) override;
 
       void append(const value_type* s, size_type len);
       void append(size_type len, value_type v);

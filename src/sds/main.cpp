@@ -157,6 +157,59 @@ void test_run( const configuration& conf, const std::vector<std::size_t>& dist_v
   a_vec.push_back(adat);
 }
 
+void test_run_seq( const configuration& conf, const std::vector<std::size_t>& dist_vec, sequences::sequence_interface* seq, insert_vec& i_vec, access_vec& a_vec )
+{
+  using clock_t      = std::chrono::steady_clock;
+  using duration_t   = std::chrono::nanoseconds;
+  using time_point_t = std::chrono::time_point<clock_t>;
+
+  clock_t      clock;
+  time_point_t start;
+  time_point_t stop;
+
+  for(unsigned int i = 0; i < dist_vec.size(); i += conf.sequenz_size )
+  {
+    insert_data data;
+    start = clock.now();
+    seq->insert( dist_vec[i], conf.sequenz_size, 'c' );
+    stop  = clock.now();
+    data.insert_time = std::chrono::duration_cast<duration_t>(stop - start).count();
+
+    unsigned int access_size = seq->size() - 1;
+    start = clock.now();
+    for( unsigned int j = 0; j < conf.border_access; ++j ) { seq->at(j); seq->at( access_size - j ); }
+    stop = clock.now();
+    data.access_time = std::chrono::duration_cast<duration_t>(stop - start).count();
+    data.size = seq->size();
+
+    i_vec.push_back(data);
+
+    if( i % conf.access_frequency == 0 )
+    {
+      const unsigned int size = seq->size();
+      
+      start = clock.now();
+      for( unsigned int j = 0; j < size; ++j ) { seq->at(j); }
+      stop = clock.now();
+      access_data adat;
+      adat.access_time = std::chrono::duration_cast<duration_t>(stop - start).count();
+      adat.size = size;
+
+      a_vec.push_back(adat);
+    }
+  }
+
+  const unsigned int size = seq->size();
+  start = clock.now();
+  for( unsigned int j = 0; j < size; ++j ) { seq->at(j); }
+  stop = clock.now();
+  access_data adat;
+  adat.access_time = std::chrono::duration_cast<duration_t>(stop - start).count();
+  adat.size = size;
+
+  a_vec.push_back(adat);
+}
+
 void print_data(const std::string& name, const insert_vec& i_vec, const access_vec& a_vec)
 {
   auto now = std::chrono::system_clock::now();
@@ -234,7 +287,7 @@ int main(int argc, char* argv[])
     bool skip_array       = false; if(vm.count("skip-array"))       skip_array = true;
     bool skip_list        = false; if(vm.count("skip-list"))        skip_list = true;
     bool skip_gap         = false; if(vm.count("skip-gap"))         skip_gap = true;
-    bool skip_piece_chain = false; if(vm.count("skip-piece-chain"))   skip_piece_chain = true;
+    bool skip_piece_chain = false; if(vm.count("skip-piece-chain")) skip_piece_chain = true;
 
     configuration configs;
     std::vector<std::size_t> distribution_vec;
@@ -269,6 +322,11 @@ int main(int argc, char* argv[])
       i_vec.clear(); a_vec.clear();
       test_run( configs, distribution_vec, array_seq, i_vec, a_vec );
       print_data("array_seq", i_vec, a_vec);
+
+      i_vec.clear(); a_vec.clear();
+      test_run_seq( configs, distribution_vec, array_seq, i_vec, a_vec );
+      print_data("array_seq_seqtest", i_vec, a_vec);
+
       delete array_seq;
     }
 
@@ -280,6 +338,11 @@ int main(int argc, char* argv[])
       i_vec.clear(); a_vec.clear();
       test_run( configs, distribution_vec, gap_seq, i_vec, a_vec );
       print_data("gap_seq", i_vec, a_vec);
+
+      i_vec.clear(); a_vec.clear();
+      test_run_seq( configs, distribution_vec, gap_seq, i_vec, a_vec );
+      print_data("gap_seq_seqtest", i_vec, a_vec);
+
       delete gap_seq;
     }
 
@@ -290,6 +353,11 @@ int main(int argc, char* argv[])
       i_vec.clear(); a_vec.clear();
       test_run( configs, distribution_vec, list_seq, i_vec, a_vec );
       print_data("list_seq", i_vec, a_vec);
+
+      i_vec.clear(); a_vec.clear();
+      test_run_seq( configs, distribution_vec, list_seq, i_vec, a_vec );
+      print_data("list_seq_seqtest", i_vec, a_vec);
+
       delete list_seq;
     }
 
@@ -300,6 +368,11 @@ int main(int argc, char* argv[])
       i_vec.clear(); a_vec.clear();
       test_run( configs, distribution_vec, piece_chain_seq, i_vec, a_vec );
       print_data("piece_chain_seq", i_vec, a_vec);
+
+      i_vec.clear(); a_vec.clear();
+      test_run_seq( configs, distribution_vec, piece_chain_seq, i_vec, a_vec );
+      print_data("piece_chain_seq_seqtest", i_vec, a_vec);
+
       delete piece_chain_seq;
     }
 

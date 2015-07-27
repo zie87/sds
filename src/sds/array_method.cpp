@@ -57,6 +57,40 @@ namespace sequences
     return string_type(m_array, m_size);
   }
 
+  void array_method::insert(size_type pos, size_type len, value_type val)
+  {
+    if(pos > m_size) throw std::out_of_range("insert position higher then size! (array_method)");
+        // resize?
+    if( m_size + len >= m_capacity )
+    {
+      unsigned int increase = (++m_increase_counter);
+      auto new_capacity     = m_capacity + len + (increase * m_increase_factor); 
+      value_type* new_array = new value_type[ new_capacity ];
+
+      if(pos == 0) 
+      { 
+        // new_array[0] = val;
+        std::fill_n(new_array, len, val);
+        std::move( &m_array[0], &m_array[m_size], &new_array[len] );
+      } else
+      {
+        std::move( &m_array[0], &m_array[pos], &new_array[0] );
+        std::fill_n(&new_array[pos], len, val);
+        std::move( &m_array[pos], &m_array[m_size], &new_array[pos+len] );
+      }
+
+      delete[] m_array; m_array = new_array;
+      m_capacity = new_capacity;
+      ++m_size += len;
+    } else
+    {
+      std::move_backward( &m_array[pos], &m_array[m_size], &m_array[m_size + len] );
+      std::fill_n(&m_array[pos], len, val);
+      ++m_size += len;
+    }
+  }
+
+
   void array_method::insert(size_type pos, value_type val) 
   {
     if(pos > m_size) throw std::out_of_range("insert position higher then size! (array_method)");

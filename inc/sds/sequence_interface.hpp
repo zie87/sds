@@ -15,10 +15,12 @@ namespace sequences
 
     virtual ~sequence_interface() {};
 
-    virtual void insert( size_type pos, value_type val ) = 0;
-    virtual void erase( size_type pos)                   = 0;
-    virtual value_type at(size_type pos)                 = 0;
-    virtual string_type str() const                      = 0;
+
+    virtual void insert( size_type pos, size_type len, value_type val ) = 0;
+    virtual void insert( size_type pos, value_type val )                = 0;
+    virtual void erase( size_type pos)                                  = 0;
+    virtual value_type at(size_type pos)                                = 0;
+    virtual string_type str() const                                     = 0;
 
     virtual size_type size() const noexcept              = 0;
     

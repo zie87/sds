@@ -28,6 +28,11 @@ namespace sequences
     return string_type( array, s );
   }
 
+  void list_method::insert(size_type pos, size_type len, value_type val)
+  {
+    for(size_type i = 0; i < len; ++i) m_list.insert(pos + i, val);
+  }
+
   void list_method::insert( size_type pos, value_type val )
   {
     if(pos > size()) throw std::out_of_range("insert position higher then size! (list_method)");

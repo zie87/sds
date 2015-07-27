@@ -53,6 +53,35 @@ namespace sequences
   gap_method::size_type gap_method::size() const noexcept { return m_buffer_len - gap_length(); }
   bool gap_method::empty() const noexcept { return size() == 0; }
 
+  void gap_method::replace(size_type pos, size_type len, const value_type* val, size_type val_len)
+  {
+    if(pos > size() ) throw  std::out_of_range("ŕeplace position higher then size! (gap_method)");
+  
+    size_type new_len = 0;
+    if( len > val_len ) new_len = 0;
+    else new_len = val_len - len; 
+
+    place_gap(pos + len, new_len) ;
+    std::copy(val,val + val_len,&m_buffer[pos]);
+    m_gap_offset_begin += val_len - len;
+  }
+
+  void gap_method::replace(size_type pos, size_type len, size_type val_len, value_type val)
+  {
+    if(pos > size() ) throw  std::out_of_range("ŕeplace position higher then size! (gap_method)");
+  
+    size_type new_len = 0;
+    if( len > val_len ) new_len = 0;
+    else new_len = val_len - len; 
+
+    place_gap(pos + len, new_len) ;
+    std::fill_n( &m_buffer[pos], val_len, val );
+    m_gap_offset_begin += val_len - len;
+  }
+
+
+  void gap_method::insert(size_type pos, size_type len, value_type val) { replace(pos, 0, len, val); }
+  void gap_method::insert(size_type pos, const value_type* s, size_type len) { replace(pos, 0, s, len); }
   void gap_method::insert( size_type pos, value_type val )
   { 
     if(pos > size() ) throw std::out_of_range("insert position higher then size! (gap_method)");
@@ -62,11 +91,7 @@ namespace sequences
     ++m_gap_offset_begin;
   }
 
-  void gap_method::erase(size_type pos)
-  {
-    erase(pos, 1);
-  }
-
+  void gap_method::erase(size_type pos) { erase(pos, 1); }
   void gap_method::erase(size_type pos, size_type len)
   {
     if(pos > size() ) throw std::out_of_range("erase position higher then size! (gap_method)");

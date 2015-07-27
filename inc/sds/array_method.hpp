@@ -24,6 +24,7 @@ namespace sequences
       array_method(const array_method& arr);
       array_method& operator=(array_method arr);
 
+      void insert(size_type pos, size_type len, value_type val) override;
       void insert( size_type pos, value_type val ) override;
       void erase( size_type pos) override;
       value_type at(size_type pos) override;

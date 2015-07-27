@@ -22,6 +22,11 @@ namespace sequences
       gap_method(const gap_method&)            = delete;
       gap_method& operator=(const gap_method&) = delete;
 
+      void replace(size_type pos, size_type len, const value_type* val, size_type val_len);
+      void replace(size_type pos, size_type len, size_type val_len, value_type val);
+
+      void insert(size_type pos, const value_type* s, size_type len);
+      void insert(size_type pos, size_type len, value_type val) override;
       void insert( size_type pos, value_type val ) override;
       void erase( size_type pos) override;
       void erase( size_type pos, size_type len);
