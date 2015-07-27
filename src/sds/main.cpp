@@ -155,7 +155,6 @@ void test_run( const configuration& conf, const std::vector<std::size_t>& dist_v
   adat.size = size;
 
   a_vec.push_back(adat);
-
 }
 
 void print_data(const std::string& name, const insert_vec& i_vec, const access_vec& a_vec)
@@ -301,7 +300,6 @@ int main(int argc, char* argv[])
       i_vec.clear(); a_vec.clear();
       test_run( configs, distribution_vec, piece_chain_seq, i_vec, a_vec );
       print_data("piece_chain_seq", i_vec, a_vec);
-      // piece_chain_seq->debug();
       delete piece_chain_seq;
     }
 

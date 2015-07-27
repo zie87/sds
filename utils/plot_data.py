@@ -21,8 +21,8 @@ plt.title('Insert - Size of Sequence')
 plt.ylabel('ns/call')
 plt.xlabel('size')
 plt.legend(loc='best', title='Series')
-plt.savefig("insert.png")
-# plt.show()
+# plt.savefig("insert.png")
+plt.show()
 
 
 #border acces
@@ -36,7 +36,8 @@ plt.title('Border Access - Size of Sequence')
 plt.ylabel('ns/call')
 plt.xlabel('size')
 plt.legend(loc='best', title='Series')
-plt.savefig("border_access.png")
+# plt.savefig("border_access.png")
+plt.show()
 
 
 
@@ -60,4 +61,5 @@ plt.title('Access - Size of Sequence')
 plt.ylabel('ns/call')
 plt.xlabel('size')
 plt.legend(loc='best', title='Series')
-plt.savefig("access.png")
+# plt.savefig("access.png")
+plt.show()
